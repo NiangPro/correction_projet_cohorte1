@@ -20,7 +20,7 @@ if (isset($_POST['addEmploye']) || isset($_POST['addMembre'])) {
                 }
             }elseif ($db->addUser($user)) {
                 set_flash("Ajout avec succès", "success");
-                return $_GET['page'] == 'membres' ? header('Location: ?page=membres') : header('Location: ?page=membres');
+                return $_GET['page'] == 'membres' ? header('Location: ?page=membres') : header('Location: ?page=employe');
             } else {
                 set_flash("Erreur d'ajout");
             }
@@ -126,6 +126,8 @@ if (isset($_GET['edit'])) {
         $p = $db->getPretById($_GET['id']);
     }else if ($_GET['edit'] == "employe") {
         $em = $db->codeAlreadyGet($_GET['code']);
+    }else if ($_GET['edit'] == "membre") {
+        $m = $db->codeAlreadyGet($_GET['code']);
     }
 }
 

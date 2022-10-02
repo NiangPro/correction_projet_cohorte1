@@ -32,7 +32,8 @@
         }
         
          // entête de page du site
-         require_once("views/includes/_header.php");   
+         require_once("views/includes/_header.php"); 
+         require_once('views/includes/_flash.php');  
 
         // routeur
         switch ($_GET['page']) {
@@ -69,6 +70,8 @@
         // pied de page du site
     }else{
         require_once("views/includes/_enteteLogin.php");
+        require_once('views/includes/_flash.php');  
+
         
         clear_input_data();
         require_once('controllers/loginController.php');

@@ -85,7 +85,7 @@
             </div>
                 
             <button type="submit" class="btn <?= isset($_GET['codeDoc'])? "btn-warning" : "btn-success" ?> btm-sm btn-rounded" name="addDocument"> <?= isset($_GET['edit'])? "Modifier" : "Ajouter" ?> </button>
-            <button type="reset" class="btn btn-danger btm-sm btn-rounded"> Annuler</button>
+            <a href="?page=document" class="btn btn-primary btm-sm btn-rounded"> Retour</a>
         </form>
     </div>
 </div>

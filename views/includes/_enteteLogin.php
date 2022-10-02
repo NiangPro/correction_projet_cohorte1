@@ -38,4 +38,4 @@
 
 </head>
 
-<body onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
+<body>

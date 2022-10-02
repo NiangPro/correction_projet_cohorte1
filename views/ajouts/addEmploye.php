@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Formulaire d'ajout employé</h4>
+        <h4 class="card-title">Formulaire d'<?= isset($_GET['edit'])? "édition" : "ajout" ?> employé</h4>
         <hr>
         <form action="" method="post">
             <div class="row">
@@ -82,7 +82,7 @@
             </div>
                 
             <button type="submit" class="btn btn-success btm-sm btn-rounded" name="addEmploye"><?= isset($_GET['edit'])? "Modifier" : "Ajouter" ?></button>
-            <button type="reset" class="btn btn-danger btm-sm btn-rounded"> Supprimer</button>
+            <a href="?page=employes" class="btn btn-info btm-sm btn-rounded"> Retour</a>
 
         </form>
     </div>

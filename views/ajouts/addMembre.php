@@ -1,25 +1,25 @@
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Formulaire d'ajout membre</h4>
+        <h4 class="card-title">Formulaire d'<?= isset($_GET['edit'])? "édition" : "ajout" ?> membre</h4>
         <hr>
         <form action="" method="post">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Prenom</label>
-                        <input type="text" name="prenom" value="<?= get_input('prenom')?>"  class="form-control" placeholder="" required>
+                        <input type="text" name="prenom" value="<?= get_input('prenom', $m->prenom)?>"  class="form-control" placeholder="" required>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Nom</label>
-                        <input type="text" name="nom" value="<?= get_input('nom')?>"  class="form-control" placeholder="" required>
+                        <input type="text" name="nom" value="<?= get_input('nom', $m->nom)?>"  class="form-control" placeholder="" required>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Telephone</label>
-                        <input type="text" name="tel" value="<?= get_input('tel')?>"  class="form-control" placeholder="" required pattern="^[0-9]+$">
+                        <input type="text" name="tel" value="<?= get_input('tel', $m->tel)?>"  class="form-control" placeholder="" required pattern="^[0-9]+$">
                     </div>
                 </div>
             </div>
@@ -78,8 +78,8 @@
                 </div>
             </div>
                 
-            <button type="submit" class="btn btn-success btm-sm btn-rounded" name="addMembre">Ajouter</button>
-            <button type="reset" class="btn btn-danger btm-sm btn-rounded"> Supprimer</button>
+            <button type="submit" class="btn btn-success btm-sm btn-rounded" name="addMembre"><?= isset($_GET['edit'])? "Modifier" : "Ajouter" ?></button>
+            <a href="?page=membres" class="btn btn-info btm-sm btn-rounded"> Retour</a>
 
         </form>
     </div>

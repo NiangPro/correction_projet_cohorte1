@@ -34,7 +34,7 @@ if (!function_exists('e')) {
 if (!function_exists('redirect')) {
     function redirect($page){
         header('Location:'.$page);
-        // exit();
+        exit();
     }
 }
 

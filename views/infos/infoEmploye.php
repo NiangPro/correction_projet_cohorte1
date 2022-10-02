@@ -16,10 +16,6 @@
                 <td><?= $em->adresse ?></td>
             </tr>
             <tr>
-                <th>Adresse : </th>
-                <td><?= $em->adresse ?></td>
-            </tr>
-            <tr>
                 <th>Téléphone : </th>
                 <td><?= $em->tel ?></td>
             </tr>
