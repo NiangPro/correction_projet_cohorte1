@@ -1,3 +1,6 @@
+<?php if(isset($_GET['info'])): ?>
+    <?php require_once('views/infos/infoReservation.php'); ?>
+<?php else: ?>
 <div class="row">
     <!-- formulaire d'ajout  -->
    <div class="col-md-3">
@@ -8,10 +11,11 @@
                 <form action="" method="POST">
                     
                     <div class="form-group">
-                        <label for="">Code document</label>
+                        <label for="">Titre du document</label>
                         <select class="form-control" name="codeDoc" required>
+                            <option value="">Choisissez</option>
                             <?php foreach($documents as $doc): ?>
-                                <option value="<?= $doc->codeDoc ?>"><?= $doc->codeDoc ?></option>
+                                <option value="<?= $doc->codeDoc ?>"><?= $doc->titre ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -35,19 +39,25 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>code Document</th>
-                            <th>Code Membre</th>
+                            <th>Titre du Document</th>
+                            <th>Auteur</th>
                             <th>Date de Reservation</th>
+                            <th>Statut</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                             <?php foreach($reservations as $r): ?>
                                 <tr>
-                                    <td><?= $r->codeDoc ?></td>
-                                    <td><?= $r->codeMembre ?></td>
+                                    <td><?= $r->titre ?></td>
+                                    <td><?= $r->auteur ?></td>
                                     <td> <?= date('d/m/Y', strtotime($r->dateReserv))  ?></td>
-                                    <td></td>
+                                    <td> 
+                                        <?= $r->statut == 0 ?'<pan class="text-danger">En attente</span>': '<pan class="text-success">Validée</span>' ?>
+                                    </td>
+                                    <td>
+                                        <a href="?page=reservation membre&id=<?= $r->id ?>&info=reservation" class="btn btn-outline-info btn-sm btn-rounded"><i class="fa fa-eye"></i></a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -57,3 +67,4 @@
         </div>
     </div> 
 </div>
+<?php endif; ?>

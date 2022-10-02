@@ -1,6 +1,6 @@
 <div class="card ">
     <div class="card-body">
-        <h1 class="card-title">Information de réservation  <a href="?page=reservation" class="btn btn-outline-primary btn-sm btn-rounded"><i class="fa-arrow-left"></i> Retour</a></h1>
+        <h1 class="card-title">Information de réservation  <a href="?page=reservation<?= $_SESSION['user']->type == "membre"?" membre":"" ?>" class="btn btn-outline-primary btn-sm btn-rounded"><i class="fa-arrow-left"></i> Retour</a></h1>
 
         <table class="table container mt-5 col-md-6">
             <tr>

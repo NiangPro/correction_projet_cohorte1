@@ -18,7 +18,7 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>code Document</th>
+                            <th>Titre Document</th>
                             <th>Code Membre</th>
                             <th>Date de Reservation</th>
                             <th>Action</th>
@@ -27,10 +27,13 @@
                         <tbody>
                             <?php foreach($reservations as $r): ?>
                                 <tr>
-                                    <td><?= $r->codeDoc ?></td>
+                                    <td><?= $r->titre ?></td>
                                     <td><?= $r->codeMembre ?></td>
                                     <td> <?= date('d/m/Y', strtotime($r->dateReserv))  ?></td>
                                     <td>
+                                        <?php if($r->statut == 0): ?>
+                                        <a href="?page=reservation&id=<?= $r->id ?>&valid=reservation" class="btn btn-outline-success btn-sm btn-rounded"><i class="fa fa-arrows"></i>Valider</a>
+                                        <?php endif; ?>
                                         <a href="?page=reservation&id=<?= $r->id ?>&info=reservation" class="btn btn-outline-info btn-sm btn-rounded"><i class="fa fa-eye"></i></a>
                                         <a href="?page=reservation&id=<?= $r->id ?>&edit=reservation" class="btn btn-outline-warning btn-sm btn-rounded"><i class="fa fa-edit"></i></a>
                                         <a href="?page=reservation&id=<?= $r->id ?>&delete=reservation" class="btn btn-outline-danger btn-sm btn-rounded"><i class="fa fa-trash"></i></a>

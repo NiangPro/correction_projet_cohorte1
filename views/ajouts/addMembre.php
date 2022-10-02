@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="">Code Employé</label>
+                        <label for="">Code Membre</label>
                         <input type="text" name="code" value="<?= get_input('code', $m->code)?>"  class="form-control" placeholder="" required>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] == null) {
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="storage/images/{{config('app.icon')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="">
     <title>Gestion Bibliotheque</title>
     <!-- Custom CSS -->
     <link href="assets/extra-libs/c3/c3.min.css" rel="stylesheet">

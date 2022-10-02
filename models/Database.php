@@ -31,7 +31,7 @@ class Database
 
     public function employesAndAdmins(){
         try {           
-            $req = $this->db->prepare("SELECT * FROM user WHERE type = 'admin' OR type = 'employe'");
+            $req = $this->db->prepare("SELECT * FROM user WHERE type = 'admin' OR type = 'employe'  ORDER BY nom ASC");
             $req->execute();
 
             return $req->fetchAll();
@@ -43,7 +43,7 @@ class Database
 
     public function membres(){
         try {           
-            $req = $this->db->prepare("SELECT * FROM user WHERE type = 'membre' ORDER BY prenom ASC");
+            $req = $this->db->prepare("SELECT * FROM user WHERE type = 'membre' ORDER BY nom ASC");
             $req->execute();
 
             return $req->fetchAll();
@@ -67,7 +67,10 @@ class Database
 
     public function reservations(){
         try {           
-            $req = $this->db->prepare("SELECT * FROM reservation  ORDER BY dateReserv DESC");
+            $req = $this->db->prepare("SELECT id,anneePub,statut, titre, auteur, dateReserv, prenom, nom, r.codeMembre as codeMembre, r.codeDoc as codeDoc
+            FROM reservation  r, user u, document d  
+            WHERE (r.codeMembre = u.code AND r.codeDoc = d.codeDoc) 
+            ORDER BY dateReserv DESC");
             $req->execute();
 
             return $req->fetchAll();
@@ -79,7 +82,10 @@ class Database
 
     public function reservationsMembre($codeMembre){
         try {           
-            $req = $this->db->prepare("SELECT * FROM reservation  WHERE codeMembre = :codeMembre  ORDER BY dateReserv DESC");
+            $req = $this->db->prepare("SELECT id,anneePub, titre, auteur,statut, dateReserv, prenom, nom, r.codeMembre as codeMembre, r.codeDoc as codeDoc
+            FROM reservation  r, user u, document d  
+            WHERE (r.codeMembre = u.code AND r.codeDoc = d.codeDoc AND r.codeMembre = :codeMembre) 
+            ORDER BY dateReserv DESC");
             $req->execute(['codeMembre'=>$codeMembre]);
 
             return $req->fetchAll();
@@ -91,7 +97,9 @@ class Database
 
     public function prets(){
         try {           
-            $req = $this->db->prepare("SELECT * FROM pret  ORDER BY dateRetour DESC");
+            $req = $this->db->prepare("SELECT id,anneePub,retour, titre, auteur, dateRetour, datePret, prenom, nom, p.codeMembre as codeMembre, p.codeDoc as codeDoc
+            FROM pret  p, user u, document d 
+            WHERE (p.codeMembre = u.code AND p.codeDoc = d.codeDoc) ORDER BY datePret DESC");
             $req->execute();
 
             return $req->fetchAll();
@@ -102,7 +110,10 @@ class Database
     }
     public function pretsMembre($codeMembre){
         try {           
-            $req = $this->db->prepare("SELECT * FROM pret WHERE codeMembre = :codeMembre  ORDER BY dateRetour DESC");
+            $req = $this->db->prepare("SELECT distinct id,anneePub,retour, titre, auteur, dateRetour, datePret, prenom, nom, p.codeMembre as codeMembre, p.codeDoc as codeDoc
+            FROM pret  p, user u, document d 
+            WHERE (p.codeMembre = u.code AND p.codeDoc = d.codeDoc AND p.codeMembre = :codeMembre)
+            ORDER BY datePret DESC");
             $req->execute(['codeMembre'=>$codeMembre]);
 
             return $req->fetchAll();
@@ -138,7 +149,7 @@ class Database
 
     public function getReservationById($id){
         try {           
-            $req = $this->db->prepare("SELECT id,anneePub, titre, auteur, dateReserv, prenom, nom, r.codeMembre as codeMembre, r.codeDoc as codeDoc
+            $req = $this->db->prepare("SELECT id,anneePub,statut, titre, auteur, dateReserv, prenom, nom, r.codeMembre as codeMembre, r.codeDoc as codeDoc
             FROM reservation  r, user u, document d 
             WHERE (r.codeMembre = u.code AND r.codeDoc = d.codeDoc AND id = :id)");
             $req->execute(['id'=>$id]);
@@ -152,9 +163,9 @@ class Database
 
     public function getPretById($id){
         try {           
-            $req = $this->db->prepare("SELECT id,anneePub, titre, auteur, dateRetour, datePret, prenom, nom, p.codeMembre as codeMembre, p.codeDoc as codeDoc
+            $req = $this->db->prepare("SELECT id,anneePub,retour, titre, auteur, dateRetour, datePret, prenom, nom, p.codeMembre as codeMembre, p.codeDoc as codeDoc
             FROM pret  p, user u, document d 
-            WHERE (p.codeMembre = u.code AND p.codeDoc = p.codeDoc AND id = :id)");
+            WHERE (p.codeMembre = u.code AND p.codeDoc = d.codeDoc AND id = :id)");
             $req->execute(['id'=>$id]);
 
             return $req->fetch();
@@ -283,7 +294,7 @@ class Database
     public function addReservation(Reservation $res){
         try {           
             $req = $this->db->prepare("INSERT INTO `reservation` 
-            VALUES(null, :codeMembre,:codeDoc,  :dateReserv)");
+            VALUES(null, :codeMembre,:codeDoc,  :dateReserv, 0)");
             return $req->execute([
                 "codeDoc" => $res->CodeDoc(),
                 "codeMembre" => $res->CodeMembre(),
@@ -312,6 +323,20 @@ class Database
         }
     }
 
+    public function validerReservation($id){
+        try {           
+            $req = $this->db->prepare("UPDATE `reservation` 
+            SET statut=1
+             WHERE id=:id");
+            return $req->execute([
+                "id" => $id
+            ]);
+
+        } catch (\PDOException $th) {
+            die("Erreur :".$th->getMessage());
+        }
+    }
+
     public function removeReservation($id){
         try {           
             $req = $this->db->prepare("DELETE FROM `reservation` WHERE id=:id");
@@ -327,7 +352,7 @@ class Database
     public function addPret(Pret $p){
         try {           
             $req = $this->db->prepare("INSERT INTO `pret` 
-            VALUES(null, :codeMembre,:codeDoc,:datePret,:dateRetour)");
+            VALUES(null, :codeMembre,:codeDoc,:datePret,:dateRetour, 0)");
             return $req->execute([
                 "codeDoc" => $p->CodeDoc(),
                 "codeMembre" => $p->CodeMembre(),
@@ -350,6 +375,20 @@ class Database
                 "codeMembre" => $p->CodeMembre(),
                 "datePret" => $p->DatePret(),
                 "dateRetour" => $p->DateRetour(),
+                "id" => $id
+            ]);
+
+        } catch (\PDOException $th) {
+            die("Erreur :".$th->getMessage());
+        }
+    }
+
+    public function retourPret($id){
+        try {           
+            $req = $this->db->prepare("UPDATE `pret` 
+            SET retour=1
+            WHERE id=:id");
+            return $req->execute([
                 "id" => $id
             ]);
 

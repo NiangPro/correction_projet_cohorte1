@@ -13,16 +13,6 @@ if (!function_exists('not_empty')) {
     }
 }
 
-if (!function_exists('valeur')) {
-    function valeur($val){
-        if (isset($val)) {
-            echo $val;
-        }else{
-            echo "";
-        }
-        // return isset($val) ? $val : "";
-    }
-}
 
 if (!function_exists('e')) {
     function e($string){
@@ -44,6 +34,16 @@ if (!function_exists('get_session')) {
             return !empty($_SESSION[$key])
                 ? e($_SESSION[$key])
                 : null;
+        }
+    }
+}
+
+if (!function_exists('supprimer')) {
+    function supprimer($vars = []){
+        foreach ($vars as $v) {
+            if (isset($v)) {
+                unset($v);
+            }
         }
     }
 }

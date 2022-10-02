@@ -15,12 +15,14 @@ if (isset($_POST['addEmploye']) || isset($_POST['addMembre'])) {
                 if ($db->editUser($user,$_GET['code'])) {
                     set_flash("Edition utilisateur avec succès", "success");
                     clear_input_data();
+                    supprimer([$_GET['edit'],$_GET['code'], $em, $m]);
+
                 }else{
                     set_flash("Erreur d'édition");
                 }
             }elseif ($db->addUser($user)) {
                 set_flash("Ajout avec succès", "success");
-                return $_GET['page'] == 'membres' ? header('Location: ?page=membres') : header('Location: ?page=employe');
+                supprimer([$_GET['add']]);
             } else {
                 set_flash("Erreur d'ajout");
             }
@@ -51,12 +53,15 @@ if (isset($_POST['addDocument'])) {
                     if ($db->editDocument($doc,$_GET['codeDoc'])) {
                         set_flash("Edition document avec succès", "success");
                         clear_input_data();
+                        supprimer([$_GET['edit'],$_GET['codeDoc'], $doc]);
                     }else{
                         set_flash("Erreur d'édition");
                     }
                 }elseif ($db->addDocument($doc)) {
                     set_flash("Ajout document avec succès", "success");
                     clear_input_data();
+                    supprimer([$_GET['add']]);
+
                 }else{
                     set_flash("Erreur d'ajout");
                 }
@@ -77,11 +82,15 @@ if (isset($_POST['addReservation'])) {
         if(isset($_GET['id'])){
             if ($db->editReservation($reserv, $_GET['id'])) {
                 set_flash("Edition reservation avec succès", "success");
+                supprimer([$_GET['edit'],$_GET['id'], $r]);
+
             }else{
                 set_flash("Erreur d'édition");
             }
         }elseif ($db->addReservation($reserv)) {
             set_flash("Ajout reservation avec succès", "success");
+            supprimer([$_GET['add']]);
+
         }else{
             set_flash("Erreur d'ajout");
         }
@@ -101,11 +110,15 @@ if (isset($_POST['addPret'])) {
         if(isset($_GET['id'])){
             if ($db->editPret($pret, $_GET['id'])) {
                 set_flash("Edition prêt avec succès", "success");
+                supprimer([$_GET['edit'],$_GET['id'], $p]);
+
             }else{
                 set_flash("Erreur de prêt");
             }
         }elseif ($db->addPret($pret)) {
             set_flash("Ajout prêt avec succès", "success");
+            supprimer([$_GET['add']]);
+
         }else{
             set_flash("Erreur d'ajout");
         }
@@ -113,6 +126,20 @@ if (isset($_POST['addPret'])) {
         
     } else {
         set_flash("Veuillez remplir tous les champs");
+    }
+}
+
+// validation des reservations 
+if (isset($_GET['valid'])) {
+    if($db->validerReservation($_GET['id'])){
+        set_flash("Reservation validée avec succès", "success");
+    }
+}
+
+// retour des des documents 
+if (isset($_GET['retour'])) {
+    if($db->retourPret($_GET['id'])){
+        set_flash("Document retourné avec succès", "success");
     }
 }
 

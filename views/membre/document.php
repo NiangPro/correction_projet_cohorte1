@@ -1,4 +1,6 @@
-
+<?php if(isset($_GET['info'])): ?>
+    <?php require_once('views/infos/infoDocument.php'); ?>
+<?php else: ?>
 <div class="card">
     <div class="card-body">
         <h4 class="card-title">Liste des documents</h4>
@@ -16,6 +18,7 @@
                     <th>Genre</th>
                     <th>Description</th>
                     <th>ISBN</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,6 +33,9 @@
                             <td><?= $doc->genre ?></td>
                             <td><?= $doc->description ?></td>
                             <td><?= $doc->isbn ?></td>
+                            <td>
+                               <a href="?page=document membre&codeDoc=<?= $doc->codeDoc ?>&info=doc" class="btn btn-outline-info btn-sm btn-rounded"><i class="fa fa-eye"></i></a>
+                            </td>
                             
                         </tr>
                     <?php endforeach; ?>
@@ -38,3 +44,4 @@
         </div>
     </div>
 </div>
+<?php endif; ?>

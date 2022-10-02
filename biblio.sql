@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : dim. 02 oct. 2022 à 08:34
+-- Généré le : dim. 02 oct. 2022 à 18:33
 -- Version du serveur : 10.4.21-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -44,8 +44,8 @@ CREATE TABLE `document` (
 --
 
 INSERT INTO `document` (`codeDoc`, `titre`, `auteur`, `anneePub`, `categorie`, `type`, `genre`, `description`, `isbn`) VALUES
-('doc1', 'Une si longue lettre', 'Mariama Ba', 2001, 'Roman', 'Enfant', 'Comédie', 'un roman interessant en edition', '245678'),
-('doc2', 'Une si longue lettre', 'Seydou bodjan', 2000, 'Roman', 'Enfant', 'Comédie', 'zzzhhsh', '35555');
+('doc1', 'Une si longue lettre', 'Mariama Ba', 2001, 'Roman', 'Enfant', 'Comédie', 'un roman interessant en modif', '245678'),
+('doc2', 'Une si courte lettre', 'Seydou bodjan', 2000, 'Roman', 'Enfant', 'Comédie', 'zzzhhsh', '35555');
 
 -- --------------------------------------------------------
 
@@ -58,15 +58,18 @@ CREATE TABLE `pret` (
   `codeMembre` varchar(250) NOT NULL,
   `codeDoc` varchar(250) NOT NULL,
   `dateRetour` date NOT NULL,
-  `datePret` date NOT NULL
+  `datePret` date NOT NULL,
+  `retour` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `pret`
 --
 
-INSERT INTO `pret` (`id`, `codeMembre`, `codeDoc`, `dateRetour`, `datePret`) VALUES
-(2, 'ilam', 'doc1', '2022-09-22', '2022-10-09');
+INSERT INTO `pret` (`id`, `codeMembre`, `codeDoc`, `dateRetour`, `datePret`, `retour`) VALUES
+(2, 'ilam', 'doc1', '2022-09-22', '2022-10-09', 1),
+(5, 'fall', 'doc1', '2022-10-22', '2022-11-06', 1),
+(6, 'fall', 'doc2', '2022-09-27', '2022-10-30', 0);
 
 -- --------------------------------------------------------
 
@@ -78,15 +81,18 @@ CREATE TABLE `reservation` (
   `id` int(11) NOT NULL,
   `codeMembre` varchar(90) NOT NULL,
   `codeDoc` varchar(250) NOT NULL,
-  `dateReserv` date NOT NULL
+  `dateReserv` date NOT NULL,
+  `statut` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `reservation`
 --
 
-INSERT INTO `reservation` (`id`, `codeMembre`, `codeDoc`, `dateReserv`) VALUES
-(3, 'ilam', 'doc1', '2022-09-17');
+INSERT INTO `reservation` (`id`, `codeMembre`, `codeDoc`, `dateReserv`, `statut`) VALUES
+(3, 'ilam', 'doc1', '2022-09-17', 1),
+(4, 'fall', 'doc2', '2022-10-15', 1),
+(5, 'fall', 'doc1', '2022-10-16', 0);
 
 -- --------------------------------------------------------
 
@@ -158,13 +164,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `pret`
 --
 ALTER TABLE `pret`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Contraintes pour les tables déchargées
